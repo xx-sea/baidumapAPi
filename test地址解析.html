@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript"
+        src="https://api.map.baidu.com/api?v=3.0&ak=W7fZe99SmIrRrBCyTPwnsDH8TIPYOaFA&s=1"></script>
+    <style>
+        #Cnt {
+            position: absolute;
+            width: 1500px;
+            height: 750px;
+            background-color: aliceblue;
+            margin: 100px auto;
+            position: fixed;
+            cursor: pointer;
+        }
+
+        #demo {
+            /* width: 300px !important; */
+            /* height: 200px !important; */
+            /* background-color: aqua; */
+            z-index: 999999;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="Cnt"></div>
+    <script src="/js/YJBmap.js"></script>
+    <script>
+        // 初始化地图信息,默认缩放，添加比例尺，如果传递数据会根据数据生成信息；
+        const data = { Node: "Cnt", point: { lng: 120.99, lat: 31.384 } };
+        var map = YJRenderMap(data);
+
+
+
+
+        let city = { provinces: "上海市", region: "长风公园" };
+        let coordinates = { lng: 120.99, lat: 31.384 };
+
+
+
+
+
+        // 根据城市信息拿到对应的经纬度；
+        map.AddressParsing(
+            city, function (point) {
+                console.log(`经纬度是:${point.lng}-----${point.lat}`);
+            })
+
+        // 根据经纬度信息拿到对应的地理信息；
+        map.NAddressParsing(coordinates, function (name) {
+            console.log(`地址是:${name}`);
+        })
+
+        // 开启鼠标点击地图获取到点击点的位置信息；
+        map.AccessMap(function (data) {
+            console.log(data);
+        })
+
+
+        // 自定义标注
+        let CData = {
+            Cpoint: { lng: 116.404, lat: 39.915 },
+            Cnode: "demo",
+            // CHTML: "<p>你好？</p><p>好好学习天天向上</p>",
+            Cwidth: 200,
+            Cheight: 300,
+            // Cbackground: "blue",
+            Ctop: 10000,
+            Cleft: 20
+        };
+
+        let CData2 = {
+            Cpoint: { lng: 117.407, lat: 39.915 },
+            Cnode: "demo",
+            // CHTML: "<p>你好？</p><p>好好学习天天向上</p>",
+            Cwidth: 200,
+            Cheight: 100,
+            // Cbackground: "blue",
+            Ctop: 10,
+            Cleft: 20
+        }
+        let CData3 = {
+            Cpoint: { lng: 118.407, lat: 40.915 },
+            Cnode: "demo",
+            // CHTML: "<p>你好？</p><p>好好学习天天向上</p>",
+            Cwidth: 200,
+            Cheight: 100,
+            // Cbackground: "blue",
+            Ctop: 10,
+            Cleft: 20
+        }
+        map.customMark(CData);
+        map.customMark(CData2);
+        map.customMark(CData3)
+        // 自定义添加控件 all 所有控件都打开；
+        // map.AddControls("Navigation");
+        map.AddControls("all")
+
+        let a = { point: { lng: 120.99, lat: 31.6 }, imgSrc: 0 }
+
+
+        map.markTag(a)
+
+        // console.log(address);
+
+
+        let demoP = document.querySelectorAll("#demo>p")
+        demoP[1].addEventListener("click", function (e) {
+            e.stopPropagation();
+            console.log(this);
+        })
+
+
+
+    </script>
+</body>
+
+</html>
